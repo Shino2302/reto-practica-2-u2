@@ -1,0 +1,29 @@
+name: Push Branch Validator
+
+on:
+  push:
+    # Se ejecuta en todos los pushes excepto en main y master
+    branches-ignore:
+      - main
+      - master
+
+jobs:
+  validate-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Show branch name
+        run: echo "Branch name: ${{ github.ref_name }}"
+
+      - name: Validate Branch name
+        run: |
+          BRANCH_NAME="${{ github.ref_name }}"
+          echo "Validando nombre de la rama: $BRANCH_NAME"
+
+          if echo "$BRANCH_NAME" | grep -Eq '^(feature|bugfix|hotfix)/'; then
+            echo "Nombre de rama válido."
+          else
+            echo "Error: El nombre de la rama no cumple la convención."
+            echo "Debe comenzar con 'feature/', 'bugfix/' o 'hotfix/'."
+            exit 1
+          fi
