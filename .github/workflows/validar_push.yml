@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Show branch name
-        run: echo "Branch name: ${{ github.ref_name }}"
+        run: echo "Branch name = ${{ github.ref_name }}"
 
       - name: Validate Branch name
         run: |
